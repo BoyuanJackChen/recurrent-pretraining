@@ -14,7 +14,7 @@ datasets
 checkpoints
 out
 output
-outputs
+# outputs
 log
 wandb
 events.out.tfevents*
@@ -35,7 +35,7 @@ launch_scripts/ahans/archive
 
 # ignore triton benchmark runs
 *.html
-*.csv
+# *.csv
 *.png
 # ignore traces
 *.trace.pickle
