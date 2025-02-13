@@ -16,7 +16,7 @@ FLAGS = parser.parse_args()
 
 def main(args):
     ### Initialize model, tokenizer, config and recurrent hyperparameter
-    device = torch.device("cuda:1")
+    device = torch.device("cuda:0")
     model_name = "tomg-group-umd/huginn-0125"
     model = AutoModelForCausalLM.from_pretrained(
         model_name, 

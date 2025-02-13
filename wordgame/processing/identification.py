@@ -31,6 +31,7 @@ def main():
     output_df = pd.DataFrame(columns=["malicious_token", "query", "rewrite"])
     if not os.path.exists("../outputs/keywords.csv"):
         output_df.to_csv("../outputs/keywords.csv", index=False)
+        num_already_generated = 0
     else:
         num_already_generated = pd.read_csv("../outputs/keywords.csv").shape[0]
 

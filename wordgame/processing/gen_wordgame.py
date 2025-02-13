@@ -30,10 +30,12 @@ def main():
 
     ### Initialize output dataframe with pandas
     output_df = pd.DataFrame(columns=["malicious_token", "query", "wordgame"])
-    if not os.path.exists(keywords_file):
-        output_df.to_csv(keywords_file, index=False)
+    output_file = "../outputs/wordgame.csv"
+    if not os.path.exists(output_file):
+        output_df.to_csv(output_file, index=False)
+        num_already_generated = 0
     else:
-        num_already_generated = pd.read_csv(keywords_file).shape[0]
+        num_already_generated = pd.read_csv(output_file).shape[0]
 
     ### Iterate over each row in keywords and generate word hints and wordgame prompts
     for i, row in keywords.iterrows():
@@ -45,29 +47,28 @@ def main():
         query = row["query"]
         malicious_word = row["malicious_token"]
         masked_query = query.replace(malicious_word, "[MASK]")
+        masked_query = masked_query[0].lower() + masked_query[1:]
 
         ### Generate the hints for the malicious_word
-        while True:
-            with openai.OpenAI(api_key=openai_token) as client:
-                completion = client.chat.completions.create(
-                    model="gpt-4o-2024-11-20",
-                    messages=[{"role": "user", "content": hint_template.replace("{word}", malicious_word)}],
-                    temperature=0.7,
-                    max_tokens=512,
-                )
-                hints = completion.choices[0].message.content.strip().lower()
+        with openai.OpenAI(api_key=openai_token) as client:
+            completion = client.chat.completions.create(
+                model="gpt-4o-2024-11-20",
+                messages=[{"role": "user", "content": hint_template.replace("{word}", malicious_word)}],
+                temperature=0.7,
+                max_tokens=512,
+            )
+            hints = completion.choices[0].message.content.strip()
 
         ### Put query and hints into the wordgame template
         final_prompt = wordgame_template.replace("{masked_query}", masked_query).replace("{word_game}", hints)
-        print(query)
+        print(f"\n\n--- {i}: {query}; {malicious_word} ---")
         print(final_prompt)
-        input()
         final_prompt = final_prompt.replace("\n", "\\n")
         
         ### Read and write the update to output with concatenate
-        output_df = pd.read_csv("../outputs/wordgame.csv")
-        output_df = pd.concat([output_df, pd.DataFrame({"malicious_token": [malicious_word], "query": [final_query], "wordgame": [final_prompt]})], ignore_index=True)
-        output_df.to_csv("../outputs/wordgame.csv", index=False)
+        output_df = pd.read_csv(output_file)
+        output_df = pd.concat([output_df, pd.DataFrame({"malicious_token": [malicious_word], "query": [query], "wordgame": [final_prompt]})], ignore_index=True)
+        output_df.to_csv(output_file, index=False)
 
 
 if __name__=="__main__":
