@@ -1,0 +1,8 @@
+# Datasets
+numpy==2.2.2
+pandas==2.2.3
+
+# Machine Learning
+torch==2.6.0
+transformers==4.48.3
+accelerate==1.3.0

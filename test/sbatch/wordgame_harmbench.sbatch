@@ -27,4 +27,4 @@ export HF_HOME='/home/bc3194/Desktop/huggingface_cache'
 
 # Call python script
 cd ..
-python -u hb_raw_gen.py --r=$r
+python -u hb_wordgame_gen.py --r=$r
