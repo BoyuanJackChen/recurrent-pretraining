@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import pandas as pd
+import gc
 
 
 def moderate(chat, model, tokenizer):
@@ -19,8 +20,8 @@ def main():
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=dtype, device_map=device)
 
     ### Read the data file with pandas
-    r = 1
-    filename = f"../outputs/raw_r{r}.csv"
+    r = 16
+    filename = f"../outputs/wordgame_r{r}.csv"
     df = pd.read_csv(filename)
     if "jailbroken" not in df.columns:
         df["jailbroken"] = None

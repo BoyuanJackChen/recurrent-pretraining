@@ -9,7 +9,7 @@ def main():
     all_jailbroken = []
 
     for r in all_r:
-        result_df = pd.read_csv(f"../outputs/raw_r{r}.csv")
+        result_df = pd.read_csv(f"../../outputs/raw_harmbench/raw_r{r}.csv")
         print(result_df)
         jailbroken_count = result_df["jailbroken"].value_counts()
         all_jailbroken.append(jailbroken_count)

@@ -6,9 +6,12 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --gres=gpu:a100:1
-#SBATCH --time=1:59:59
+#SBATCH --time=3:59:59
 #SBATCH --mem=10GB
-#SBATCH --job-name=hb_r1
+
+### Define the parameter r (4,8,16,32,64,128)
+r=1
+#SBATCH --job-name=hb_r$r
 
 module purge
 
@@ -19,7 +22,9 @@ source ~/.bashrc
 conda activate recurrent
 
 # Set the transformers cache path
-export TRANSFORMERS_CACHE="/scratch/bc3194/huggingface_cache"
+export TRANSFORMERS_CACHE='/home/bc3194/Desktop/huggingface_cache'
+export HF_HOME='/home/bc3194/Desktop/huggingface_cache'
 
 # Call python script
-python -u infer_codegen.py
+cd ..
+python -u hb_wordgame_gen.py --r=$r

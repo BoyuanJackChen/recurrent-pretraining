@@ -10,7 +10,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--r", type=int, default=64)
+parser.add_argument("--r", type=int, default=16)
 FLAGS = parser.parse_args()
 
 
@@ -43,20 +43,20 @@ def main(args):
     r = args.r
 
     ### Safety template loaded from ./raw_safety_template.txt
-    with open("raw_safety_template.txt", "r") as f:
+    with open("raw_half_safety.txt", "r") as f:
         safety_template = f.read()
         
     ### Load the wordgame-adapted harmbench dataset
     wordgame = pd.read_csv("../prompts/hb_wordgame.csv")
     
     ### Create a pandas df with four columns: r, answer, question, malicious_token
-    outfile = f"../outputs/raw_r{r}.csv"
+    outfile = f"../outputs/wordgame_r{r}.csv"
     df = pd.DataFrame(columns=["r", "answer", "question", "malicious_token"])
     if not os.path.exists(outfile):
         df.to_csv(outfile, index=False)
 
     ### Generate the output in server-like format for each question in wordgame. Use zip
-    for (harmprompt, malicious_token) in wordgame[["prompt", "malicious_token"]].values:
+    for (harmprompt, malicious_token) in wordgame[["wordgame", "malicious_token"]].values:
         ### Check if the current prompt already exists
         df = pd.read_csv(outfile)
         if harmprompt in df["question"].values:
