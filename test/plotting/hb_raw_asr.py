@@ -11,14 +11,15 @@ def main():
     for r in all_r:
         result_df = pd.read_csv(f"../../outputs/raw_harmbench/raw_r{r}.csv")
         print(result_df)
-        jailbroken_count = result_df["jailbroken"].value_counts()
+        # Count how many "True" value there is in "jailbroken" column
+        jailbroken_count = result_df["jailbroken"].value_counts().get(True, 0)
         all_jailbroken.append(jailbroken_count)
 
     # Plot the jailbroken numbers with respect to r values
     fig, ax = plt.subplots(figsize=(8, 6))  # Increase figure size for readability
     ax.plot(
         all_r,
-        [jailbroken[1] for jailbroken in all_jailbroken], 
+        all_jailbroken, 
         marker='o', 
         linestyle='-', 
         color='#6FA3EF',  # Lighter blue color
@@ -45,7 +46,7 @@ def main():
 
     # Show the plot and save to ../plots/raw_jb_r.png, with dpi=500
     plt.show()
-    fig.savefig("../plots/raw_jb_r.png", dpi=500)
+    fig.savefig("../../plots/raw_jb_r.png", dpi=500)
 
 
 if __name__ == "__main__":

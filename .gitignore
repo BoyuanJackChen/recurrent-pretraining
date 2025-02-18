@@ -36,7 +36,7 @@ launch_scripts/ahans/archive
 # ignore triton benchmark runs
 *.html
 # *.csv
-*.png
+# *.png
 # ignore traces
 *.trace.pickle
 *.ods#
