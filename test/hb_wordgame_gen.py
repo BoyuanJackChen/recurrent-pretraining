@@ -7,6 +7,7 @@ import pandas as pd
 import os
 import gc
 import argparse
+import huggingface_hub
 
 
 parser = argparse.ArgumentParser()
@@ -15,6 +16,14 @@ FLAGS = parser.parse_args()
 
 
 def main(args):
+    ### Load huggingface key from ../../keys.txt. Read through each line and get the line starting with "Huggingface: "
+    with open("../../keys.txt", "r") as f:
+        for line in f:
+            if line.startswith("Huggingface: "):
+                key = line.split("Huggingface: ")[1].strip()
+                break
+    huggingface_hub.login(token=key)
+
     ### Initialize model, tokenizer, config and recurrent hyperparameter
     device = torch.device("cuda:0")
     model_name = "tomg-group-umd/huginn-0125"
