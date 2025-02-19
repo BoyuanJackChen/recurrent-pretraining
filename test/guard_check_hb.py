@@ -6,7 +6,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--r", type=int, default=16)
+parser.add_argument("--r", type=int, default=128)
 FLAGS = parser.parse_args()
 
 
@@ -27,7 +27,8 @@ def main(args):
 
     ### Read the data file with pandas
     r = args.r
-    filename = f"../outputs/wordgame_harmbench/wordgame_r{r}.csv"
+    keyword = "raw"
+    filename = f"../outputs/{keyword}_harmbench/{keyword}_r{r}.csv"
     df = pd.read_csv(filename)
     if "jailbroken" not in df.columns:
         df["jailbroken"] = None

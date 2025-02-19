@@ -59,7 +59,7 @@ def main(args):
     wordgame = pd.read_csv("../prompts/hb_wordgame.csv")
     
     ### Create a pandas df with four columns: r, answer, question, malicious_token
-    outfile = f"../outputs/wordgame_r{r}.csv"
+    outfile = f"../outputs/wordgame_harmbench/wordgame_r{r}.csv"
     df = pd.DataFrame(columns=["r", "answer", "question", "malicious_token"])
     if not os.path.exists(outfile):
         df.to_csv(outfile, index=False)

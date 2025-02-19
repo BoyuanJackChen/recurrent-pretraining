@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
 
 def main():
@@ -23,7 +22,7 @@ def main():
         marker='o', 
         linestyle='-', 
         color='#6FA3EF',  # Lighter blue color
-        markersize=8       # Bigger dots
+        markersize=8      # Bigger dots
     )
 
     # Set logarithmic scale for x-axis to make spacing equal
