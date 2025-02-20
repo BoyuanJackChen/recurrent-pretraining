@@ -9,7 +9,7 @@
 #SBATCH --mem=10GB
 
 ### Define the parameter r (4,8,16,32,64,128)
-r=4
+r=128
 #SBATCH --job-name=r$r_raw
 
 module purge
