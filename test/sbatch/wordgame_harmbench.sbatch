@@ -22,8 +22,8 @@ source ~/.bashrc
 conda activate recurrent
 
 # Set the transformers cache path
-export TRANSFORMERS_CACHE='/home/bc3194/Desktop/huggingface_cache'
-export HF_HOME='/home/bc3194/Desktop/huggingface_cache'
+export TRANSFORMERS_CACHE='/scratch/bc3194/huggingface_cache'
+export HF_HOME='/scratch/bc3194/huggingface_cache'
 
 # Call python script
 cd ..

@@ -7,6 +7,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--r", type=int, default=128)
+parser.add_argument("--keyword", type=str, default="wordgame")
 FLAGS = parser.parse_args()
 
 
@@ -18,20 +19,20 @@ def moderate(chat, model, tokenizer):
 
 
 def main(args):
+    ### Read the data file with pandas
+    r = args.r
+    keyword = args.wordgame
+    filename = f"../outputs/{keyword}_harmbench/{keyword}_r{r}.csv"
+    df = pd.read_csv(filename)
+    if "jailbroken" not in df.columns:
+        df["jailbroken"] = None
+
     ### Initialize model and tokenizer
     model_id = "meta-llama/Llama-Guard-3-8B"
     device = "auto"
     dtype = torch.bfloat16
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=dtype, device_map=device)
-
-    ### Read the data file with pandas
-    r = args.r
-    keyword = "raw"
-    filename = f"../outputs/{keyword}_harmbench/{keyword}_r{r}.csv"
-    df = pd.read_csv(filename)
-    if "jailbroken" not in df.columns:
-        df["jailbroken"] = None
 
     ### Loop through the rows of the dataframe. This checking is fast, so we do not give if None statement here.
     for i, row in df.iterrows():
