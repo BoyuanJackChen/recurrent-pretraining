@@ -94,18 +94,19 @@ def main():
 
     ### Loop through each row of these dataframes in parallel, and check if ANY of the dataframe's "jailbroken" column is True
     for i, (row_4, row_8, row_16, row_32, row_64, row_128) in enumerate(zip(df_4.iterrows(), df_8.iterrows(), df_16.iterrows(), df_32.iterrows(), df_64.iterrows(), df_128.iterrows())):
-        if any([row_8[1]["jailbroken"], row_16[1]["jailbroken"], row_32[1]["jailbroken"], row_64[1]["jailbroken"], row_128[1]["jailbroken"]]):
-            ### Check in the output dir if there is already a .png file with filename starting with str(i+1). If there is, skip this iteration
-            if any([f.startswith(f"{str(i+1)}_") for f in os.listdir(output_dir)]):
-                continue
+        # if any([row_8[1]["jailbroken"], row_16[1]["jailbroken"], row_32[1]["jailbroken"], row_64[1]["jailbroken"], row_128[1]["jailbroken"]]):
+        ### Check in the output dir if there is already a .png file with filename starting with str(i+1). If there is, skip this iteration
+        if any([f.startswith(f"{str(i+1)}_") for f in os.listdir(output_dir)]):
+            continue
 
-            all_jailbroken = [row_4[1]["jailbroken"], row_8[1]["jailbroken"], row_16[1]["jailbroken"], row_32[1]["jailbroken"], row_64[1]["jailbroken"], row_128[1]["jailbroken"]]
-            indices = [i for i, x in enumerate(all_jailbroken) if x]
-            jailbroken_rs = [all_r[i] for i in indices]
-            jailbroken_rs = ", ".join(map(str, jailbroken_rs))
-            filename = os.path.join(output_dir, f"{str(i+1)}_{jailbroken_rs}.png")
-            prompt = recover_prompt(row_4[1]["question"], row_4[1]["malicious_token"])
-            plot_outputs(prompt, [row_4[1], row_8[1], row_16[1], row_32[1], row_64[1], row_128[1]], all_r, all_jailbroken, filename)
+        all_jailbroken = [row_4[1]["jailbroken"], row_8[1]["jailbroken"], row_16[1]["jailbroken"], row_32[1]["jailbroken"], row_64[1]["jailbroken"], row_128[1]["jailbroken"]]
+        indices = [i for i, x in enumerate(all_jailbroken) if x]
+        jailbroken_rs = [all_r[i] for i in indices]
+        jailbroken_rs = ", ".join(map(str, jailbroken_rs))
+        filename = os.path.join(output_dir, f"{str(i+1)}_{jailbroken_rs}.png")
+        prompt = recover_prompt(row_4[1]["question"], row_4[1]["malicious_token"])
+        print(f"{str(i+1)}")
+        plot_outputs(prompt, [row_4[1], row_8[1], row_16[1], row_32[1], row_64[1], row_128[1]], all_r, all_jailbroken, filename)
 
 
 
